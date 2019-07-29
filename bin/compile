@@ -8,9 +8,9 @@ ENV_DIR=$3
 
 # copy inject_cdata_runtime_env.sh
 BP_DIR=`cd $(dirname $0); cd ..; pwd`
-profie_d_dir="$BUILD_DIR/.prodile.d"
+profile_d_dir="$BUILD_DIR/.prodile.d"
 mkdir -p "$profile_d_dir"
-cp "$BP_DIR/.profile.d/inject_cdata_runtime_env.sh" "$profile_d_fir/zz_inject_cdata_runtime_env.sh"
+cp "$BP_DIR/.profile.d/inject_cdata_runtime_env.sh" "$profile_d_dir/zz_inject_cdata_runtime_env.sh"
 
 # set cdata admin config vars
 cdata_admin=`cat /dev/urandom | base64 | tr -dc 'a-zA-Z0-9' | fold -w 6 | head -n 1`
