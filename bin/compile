@@ -57,6 +57,6 @@ else
 fi
 
 #
-heroku plugins:install heroku-cli-deploy
-heroku war:deploy "$BP_DIR/lib/apiserver.war"
+$BUILD_DIR/.heroku/bin/heroku plugins:install heroku-cli-deploy
+$BUILD_DIR/.heroku/bin/heroku war:deploy "$BP_DIR/lib/apiserver.war"
 
