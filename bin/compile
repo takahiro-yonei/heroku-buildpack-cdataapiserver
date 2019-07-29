@@ -1,0 +1,62 @@
+#!/bin/bash
+set -e
+set -u
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+# copy inject_cdata_runtime_env.sh
+BP_DIR=`cd $(dirname $0); cd ..; pwd`
+profie_d_dir="$BUILD_DIR/.prodile.d"
+mkdir -p "$profile_d_dir"
+cp "$BP_DIR/.profile.d/inject_cdata_runtime_env.sh" "$profile_d_fir/zz_inject_cdata_runtime_env.sh"
+
+# set cdata admin config vars
+cdata_admin=`cat /dev/urandom | base64 | tr -dc 'a-zA-Z0-9' | fold -w 6 | head -n 1`
+cdata_pw=`cat /dev/urandom | base64 | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1`
+export CDATA_ADMIN_ID="${cdata_admin}"
+export CDATA_ADMIN_PW="${cdata_pw}"
+export WEBAPP_RUNNER_OPTS="--tomcat-users-location ../../tomcat-users.xml"
+
+# 
+cp $BP_DIR/.buildpacks $BUILD_DIR/.buildpacks
+url=https://github.com/heroku/heroku-buildpack-multi.git
+branch=""
+dir=$(mktemp -t buildpackXXXXX)
+rm -rf $dir
+
+echo "=====> Downloading Buildpack: $url"
+
+if [[ "$url" =~ \.tgz$ ]] || [[ "$url" =~ \.tgz\? ]]; then
+  mkdir -p "$dir"
+  curl -s "$url" | tar xvz -C "$dir" >/dev/null 2>&1
+else
+  git clone $url $dir >/dev/null 2>&1
+fi
+cd $dir
+
+if [ "$branch" != "" ]; then
+  git checkout $branch >/dev/null 2>&1
+fi
+
+chmod -f +x $dir/bin/{detect,compile,release}
+
+framework=$($dir/bin/detect $1)
+
+if [ $? == 0 ]; then
+  echo "=====> Detected Framework: $framework"
+  $dir/bin/compile $BUILD_DIR $CACHE_DIR $ENV_DIR
+
+  if [ $? != 0 ]; then
+    exit 1
+  fi
+else
+  echo "cdata api `.buildpacks` not defined. Exiting."
+  exit 1
+fi
+
+#
+heroku plugins:install heroku-cli-deploy
+heroku war:deploy "$BP_DIR/lib/apiserver.war" --includes "$BP_DIR/tomcat-users.xml"
+

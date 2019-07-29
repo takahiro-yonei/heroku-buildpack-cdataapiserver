@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "cdata api server"
+exit 0
