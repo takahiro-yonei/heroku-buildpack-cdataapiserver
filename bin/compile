@@ -58,5 +58,5 @@ fi
 
 #
 heroku plugins:install heroku-cli-deploy
-heroku war:deploy "$BP_DIR/lib/apiserver.war" --includes "$BP_DIR/tomcat-users.xml"
+heroku war:deploy "$BP_DIR/lib/apiserver.war"
 
