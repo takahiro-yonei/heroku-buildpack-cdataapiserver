@@ -63,8 +63,14 @@ fi
 # ./java -version
 $BUILD_DIR/.heroku/bin/heroku plugins:install heroku-cli-deploy
 
+export JAVA_HOME="${$BUILD_DIR/.jdk}"
+export PATH="$\JAVA_HOME/bin:$\PATH"
+echo $PATH
+echo ""
+
 cd $BP_DIR
 pwd
 echo "=====> war:deploy"
+
 $BUILD_DIR/.heroku/bin/heroku war:deploy "$BP_DIR/lib/apiserver.war" -a arcane-escarpment-45518
 
