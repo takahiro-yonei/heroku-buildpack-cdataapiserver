@@ -60,6 +60,7 @@ fi
 # cd $BUILD_DIR/.heroku/bin
 cd $BUILD_DIR/.jdk/bin
 pwd
+./java -version
 $BUILD_DIR/.heroku/bin/heroku plugins:install heroku-cli-deploy
 $BUILD_DIR/.heroku/bin/heroku war:deploy "$BP_DIR/lib/apiserver.war" -a arcane-escarpment-45518
 
