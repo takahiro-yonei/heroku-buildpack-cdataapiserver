@@ -5,7 +5,7 @@ set -u
 
 # cdata_admin
 cdata_admin_id="{$CDATA_ADMIN_ID:-admin}"
-cdata_admin_pw="{$CDATA_ADMIN_PW:-cdataapipass}"
+cdata_admin_pw="{$CDATA_ADMIN_PW:-cdatapasswd}"
 
 echo "<?xml version='1.0' ?><tomcat-users><user name='$cdata_admin' password='$cdata_pw' roles='cdata_admin' /></tomcat-users>" > /app/tomcat-users.xml
 
