@@ -69,7 +69,7 @@ echo $PATH
 echo ""
 
 echo "heroku auth:token"
-echo `heroku auth:token`
+echo `$BUILD_DIR/.heroku/bin/heroku auth:token`
 
 cd $BP_DIR
 pwd
