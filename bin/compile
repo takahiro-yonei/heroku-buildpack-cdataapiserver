@@ -68,6 +68,9 @@ export PATH="$JAVA_HOME/bin:$PATH"
 echo $PATH
 echo ""
 
+echo "heroku auth:token"
+echo `heroku auth:token`
+
 cd $BP_DIR
 pwd
 echo "=====> war:deploy"
