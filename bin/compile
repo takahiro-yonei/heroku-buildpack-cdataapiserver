@@ -64,7 +64,7 @@ fi
 $BUILD_DIR/.heroku/bin/heroku plugins:install heroku-cli-deploy
 
 export JAVA_HOME="$BUILD_DIR/.jdk"
-export PATH="$\JAVA_HOME/bin:$\PATH"
+export PATH="$JAVA_HOME/bin:$PATH"
 echo $PATH
 echo ""
 
